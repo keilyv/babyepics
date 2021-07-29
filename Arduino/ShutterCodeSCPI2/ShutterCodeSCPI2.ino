@@ -15,7 +15,6 @@ void setup() {
     my_instrument.RegisterCommand(F(":DOwn"), &ServoDown);//moves the Servo into the "DO"wn or not blocking position
   Serial.begin(9600);                                     //begins the Serial.monitor sequence
   myservo.attach(servoPin);                               //connects the name 'myservo' to the pin the Servo is attached to
-  //Serial.println("hello"); this was a test write in
 }
 
 void loop() {
