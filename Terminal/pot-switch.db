@@ -1,0 +1,14 @@
+record(ai,"baby:pot"){
+   field(DTYP,"stream")
+   field(INP,"@pot-switch.proto getValue baby")
+}
+
+record(bi,"baby:rocker"){
+   field(DTYP,"stream")
+   field(INP,"@pot-switch.proto getState baby")
+}
+
+record(ai,"baby:info"){
+   field(DTYP,"stream")
+   field(INP,"@pot-switch.proto info baby")
+}

@@ -1,0 +1,16 @@
+terminator = CR LF;
+
+info{
+   out "ID?";
+   in "%s";
+}
+
+getValue {
+   out "POT?";
+   in "%f";
+}
+
+getState{
+   out "ROC?";
+   in "%f:%s";
+}
