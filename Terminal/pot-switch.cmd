@@ -5,7 +5,7 @@ streamApp_registerRecordDeviceDriver
 
 epicsEnvSet "STREAM_PROTOCOL_PATH","."
 
-drvAsynSerialPortConfigure("baby","/dev/ttyACM1")
+drvAsynSerialPortConfigure("baby","/dev/ttyACM0")
 asynSetOption("baby",0,"baud","9600")
 asynSetOption("baby",0,"bits","8")
 asynSetOption("baby",0,"parity","none")
