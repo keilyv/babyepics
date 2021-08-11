@@ -1,0 +1,20 @@
+#.db file for photodiode
+
+record (ai, "BB:VAL")
+{
+	field(DTYP, "stream")
+	field(INP, "@photo.proto photo BB")
+	field(SCAN, ".5 second")
+}
+
+record (stringin, "BB:ID")
+{
+	field(DTYP, "stream")
+	field(INP, "@photo.proto id BB")
+	field(SCAN, ".5 second")
+}
+
+ record (stringin, "BB:debug"){
+	field(DTYP, "stream")
+	field(INP, "@photo.proto debug BB")
+}
