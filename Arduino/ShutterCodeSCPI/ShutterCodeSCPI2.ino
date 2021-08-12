@@ -28,11 +28,11 @@ void Identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {      //id
 
 void ServoPos(SCPI_C commands, SCPI_P parameters, Stream& interface) {      //finding the position of the Servo (either 90 or 0)
   interface.println(String(pos, DEC));                                      //prints position of servo blocker
-  if(pos == 90){                                                            //if the pos value is = to 90
-    Serial.println("up");                                                       //prints up
-  }else{                                                                    //else
-    Serial.println("down");                                                     //prints down
-  }
+//  if(pos == 90){                                                            //if the pos value is = to 90
+//    Serial.println("up");                                                       //prints up
+//  }else{                                                                    //else
+//    Serial.println("down");                                                     //prints down
+//  }
 }
 
 void ServoUp(SCPI_C commands, SCPI_P parameters, Stream& interface){        //moves Servo UP to blocking position   
