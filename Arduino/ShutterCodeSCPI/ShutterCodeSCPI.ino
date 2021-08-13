@@ -30,20 +30,22 @@ void Identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {      //id
 
 void ServoPos(SCPI_C commands, SCPI_P parameters, Stream& interface) {      //finding the position of the Servo (either 90 or 0)
   //interface.println(String(pos, DEC));                                      //prints position of servo blocker
-  while (Serial.available() == 0) {}
-  value = interface.readString();
+  //while (Serial.available() == 0) {}
+  if(parameters.Size() > 0) {
+  value = String(parameters[0]).toInt();
   pos = value.toInt();
   if(pos == 90){                                                          
     myservo.write(90);
     delay(100);
     pos = 90;
-    interface.println(F("up"));
+    interface.println(String(pos, DEC));
   }
   if (pos == 0){                                                                 
     myservo.write(0);
     delay(100);
     pos= 0;
-    interface.println(F("down"));
+    interface.println(String(pos,DEC));
+  }
   }
   
 }

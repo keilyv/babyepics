@@ -1,7 +1,0 @@
-terminator = ;
-
-state {
-	out "%{d|a}";
-}
-
-
