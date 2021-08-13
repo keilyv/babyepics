@@ -1,0 +1,18 @@
+terminator = CR LF;
+
+info {
+	ExtraInput = Ignore;
+	out "ID?";
+	in "%39c";
+}
+
+set {
+	out "SET %d";
+	in "%d";
+}
+
+debug {
+   ExtraInput = Ignore;
+   out "%s";
+   in "%39c";
+}

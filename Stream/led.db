@@ -1,5 +1,0 @@
-record(bo, "LED1:state")
-{
-	field(DTYP, "stream")
-	field(OUT, "@led.proto state LED1")
-}

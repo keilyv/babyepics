@@ -1,0 +1,16 @@
+record(stringin,"baby:info"){
+	field(DTYP,"stream")
+	field(INP,"@leds.proto info baby")
+	field(SCAN,".5 second")
+}
+
+record(ai,"baby:set"){
+	field(DTYP,"stream")
+	field(INP,"@leds.proto set baby")
+	field(SCAN,".5 second")
+}
+
+record(stringin,"baby:debug"){
+	field(DTYP,"stream")
+	field(INP,"@leds.proto debug baby")
+}
