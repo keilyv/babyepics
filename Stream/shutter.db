@@ -1,0 +1,20 @@
+#.db file for shutter
+
+record(ai, "shu:pos")
+{
+	field(DTYP, "stream")
+	field(INP, "@shutter.proto pos shu")
+	field(SCAN, ".5 second")
+}
+
+record(stringin, "shu:ID")
+{
+	field(DTYP, "stream")
+	field(INP, "@shutter.proto id shu")
+	field(SCAN, ".5 second")
+}
+
+record(stringin, "shu:debug"){
+	field(DTYP, "stream")
+	field(INP, "@shutter.proto debug shu")
+}

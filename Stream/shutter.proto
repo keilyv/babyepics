@@ -1,0 +1,20 @@
+terminator = CR LF;
+
+id {
+	ExtraInput = Ignore;
+	out "ID?";
+	in "%39c";
+}
+
+pos {
+	
+	out "SER:POS %d";
+	in "%d";
+}
+
+
+  debug{
+	ExtraInput = Ignore;
+	out "%s";
+	in "%39c";
+}
