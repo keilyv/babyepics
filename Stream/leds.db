@@ -4,7 +4,7 @@ record(stringin,"baby:info"){
 	field(SCAN,".5 second")
 }
 
-record(ai,"baby:set"){
+record(ai,"baby:val"){
 	field(DTYP,"stream")
 	field(INP,"@leds.proto set baby")
 	field(SCAN,".5 second")

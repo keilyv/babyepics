@@ -7,7 +7,7 @@ record(ai, "shu:pos")
 	field(SCAN, ".5 second")
 }
 
-record(stringin, "shu:ID")
+record(stringin, "shu:info")
 {
 	field(DTYP, "stream")
 	field(INP, "@shutter.proto id shu")
