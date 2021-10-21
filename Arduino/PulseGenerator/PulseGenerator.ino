@@ -1,12 +1,21 @@
 /*
 Generates 3.3 V TTL signals at a fixed repetition rate
 
-Outputs signals across eight channels, each with its own delay time
+Creates eight independently delayed TTL pulses. Each channel's delay time is specified in microseconds relative to TRIGOUT.
+Each TTL pulse is emitted as HIGH with a 3 millisecond duration.
+The overall repetition rate of the system can be adjusted up to about 100 Hz (depending on other time delay choices).
+Typical precision of the requested delay times (on an Arduino Uno) is about 50 microseconds. This jitters around.
 
 References:
  1. Following timer instructions at: https://github.com/contrem/arduino-timer
  2. Following Vrekrer SCPI Parser examples, e.g. at https://github.com/Vrekrer/Vrekrer_scpi_parser/blob/master/examples/Numeric_suffixes/Numeric_suffixes.ino
 
+Serial Commands (lower-case portions are optional):
+  *IDN?                 Responds with a device identification string.
+  DELay:CHannelN VAL    Sets Channel N (0-7) output delay to VAL (integer, in microseconds).
+  DELay:CHannelN?       Responds with output delay (integer, in microseconds) of Channel N (0-7).
+  REPrate VAL           Sets system-wide repetition-rate to VAL (double, in Hz).
+  REPrate?              Responds with the system-wide repetition-rate (double, in Hz).
 */
 
 #include "Arduino.h"
@@ -14,16 +23,16 @@ References:
 #include <arduino-timer.h>
 #include "Vrekrer_scpi_parser.h"
 
-#define TRIGOUT 3 // Outputs at start of trigger event
-#define NCHAN 8 // Total number independently delayed output signals
-#define CH0 4
-#define CH1 5
-#define CH2 6
-#define CH3 7
-#define CH4 8
-#define CH5 9
-#define CH6 10
-#define CH7 11
+#define TRIGOUT 3 // The "zero delay" TRIGOUT TTL pulse is output on Arduino Pin 3
+#define NCHAN 8 // Total number independently delayed output TTL pulse output channels
+#define CH0 4 // Channel 0 TTL pulse is output on Arduino Pin 4
+#define CH1 5 // Channel 1 TTL pulse is output on Arduino Pin 5
+#define CH2 6 // Channel 2 TTL pulse is output on Arduino Pin 6
+#define CH3 7 // Channel 3 TTL pulse is output on Arduino Pin 7
+#define CH4 8 // Channel 4 TTL pulse is output on Arduino Pin 8
+#define CH5 9 // Channel 5 TTL pulse is output on Arduino Pin 9
+#define CH6 10 // Channel 5 TTL pulse is output on Arduino Pin 10
+#define CH7 11 // Channel 5 TTL pulse is output on Arduino Pin 11
 
 /* Serial communication initialization */
 SCPI_Parser my_instrument;
@@ -36,6 +45,7 @@ int chanPins[NCHAN]; // Pins for each channel
 int delays[NCHAN]; // Millisecond delay times for each channel
 
 int pulseTime = 3000; // TTL pulse duration in microseconds
+double repRate = 10; // pulse repetition-rate in Hz
 unsigned long t0;
 
 /* Timing functions */
@@ -68,11 +78,12 @@ bool trigStart(void *argument){
     return true; // repeat at the next interval of the timer
 }
 
-void updateRepRate(double repRate){
+void updateRepRate(double repRateHz){
   // Sets the repetition-rate, with value in Hz
   timer2.cancel();
-  int repTime = round(1000 / repRate);
+  int repTime = round(1000 / repRateHz);
   timer2.every(repTime, trigStart); // Start a timer for this channel
+  repRate = repRateHz; // Update the global variable "repRate"
 }
 
 /* Serial communication functions */
@@ -82,12 +93,12 @@ void identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {
 
 
 void getRepRate(SCPI_C commands, SCPI_P parameters, Stream& interface) {
-  interface.println(repRate)
+  interface.println(repRate);
 }
 
 void setRepRate(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   String first_parameter = String(parameters.First());
-  updateRepRate(first_parameter.toDouble())
+  updateRepRate(first_parameter.toDouble());
 }
 
 void getDelay(SCPI_C commands, SCPI_P parameters, Stream& interface) {
@@ -154,18 +165,17 @@ void setup() {
   chanPins[6] = CH6;
   chanPins[7] = CH7;
     
-  // Save initial delay times (in milliseconds) into the delays array
-  delays[0] = 1900;
+  // Save initial delay times (in microseconds) into the delays array
+  delays[0] = 2000;
   delays[1] = 2000;
-  delays[2] = 2100;
+  delays[2] = 2000;
   delays[3] = 2000;
   delays[4] = 2000;
   delays[5] = 2000;
   delays[6] = 2000;
   delays[7] = 2000;
 
-  // Initialize the repetition rate at 10 Hz
-  double repRate = 10;
+  // Initialize the repetition rate
   updateRepRate(repRate); // Sets the repetition-rate, with value in Hz
 }
 
