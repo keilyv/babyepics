@@ -88,7 +88,7 @@ void updateRepRate(double repRateHz){
 
 /* Serial communication functions */
 void identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {
-  interface.println(F("Sidekick EPICS,Arduino TTL Pulse Generator,#00,v0.1"));
+  interface.println(F("DolphinDAQ,Arduino TTL Pulse Generator,#00,v0.1"));
 }
 
 
