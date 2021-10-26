@@ -1,21 +1,28 @@
 /*
-Generates 3.3 V TTL signals at a fixed repetition rate
+PulseGeneratorSCPI.ino
 
-Creates eight independently delayed TTL pulses. Each channel's delay time is specified in microseconds relative to TRIGOUT.
-Each TTL pulse is emitted as HIGH with a 3 millisecond duration.
-The overall repetition rate of the system can be adjusted up to about 100 Hz (depending on other time delay choices).
-Typical precision of the requested delay times (on an Arduino Uno) is about 50 microseconds. This jitters around.
+Generates 3.3 V TTL square pulses at a specified repetition rate.
+
+Important Notes:
+ * Creates eight independently delayed TTL pulses. Each channel's delay time is specified in microseconds relative to TRIGOUT.
+ * Each TTL pulse is emitted as HIGH (3.3 V) with a 3 millisecond duration, after which is goes back to its LOW state (0 V).
+ * The overall repetition rate of the system can be adjusted up to about 100 Hz (depending on other time delay choices).
+ * Typical precision of the requested delay times (on an Arduino Uno) is about 50 microseconds. This jitters around.
+ * "Time-zero" trigger output can be monitored on Arduino Pin 3.
+ * Up to eight channels (CH0 - CH7) of controlled TTL pulse outputs can be wired to Arduino Pins 4, 5, 6, 7, 8, 9, 10, 11.
+
+Serial Commands (lower-case portions are optional):
+  *IDN?                 Responds with a device identification string.
+  DELay:CHannelN VAL    Sets Channel N (0-7) output delay to VAL (unsigned long integer, in microseconds).
+  DELay:CHannelN?       Responds with output delay (unsigned long integer, in microseconds) of Channel N (0-7).
+  REPrate VAL           Sets system-wide repetition-rate to VAL (double, in Hz).
+  REPrate?              Responds with the system-wide repetition-rate (double, in Hz).
 
 References:
  1. Following timer instructions at: https://github.com/contrem/arduino-timer
  2. Following Vrekrer SCPI Parser examples, e.g. at https://github.com/Vrekrer/Vrekrer_scpi_parser/blob/master/examples/Numeric_suffixes/Numeric_suffixes.ino
 
-Serial Commands (lower-case portions are optional):
-  *IDN?                 Responds with a device identification string.
-  DELay:CHannelN VAL    Sets Channel N (0-7) output delay to VAL (integer, in microseconds).
-  DELay:CHannelN?       Responds with output delay (integer, in microseconds) of Channel N (0-7).
-  REPrate VAL           Sets system-wide repetition-rate to VAL (double, in Hz).
-  REPrate?              Responds with the system-wide repetition-rate (double, in Hz).
+Created by Scott Feister, Emiko Ito, and Keily Valdez-Sereno of California State University Channel Islands in Fall 2021.
 */
 
 #include "Arduino.h"

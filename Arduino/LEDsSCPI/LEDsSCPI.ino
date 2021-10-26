@@ -3,22 +3,24 @@ LEDsSCPI.ino
 
 When externally triggered, flashes six LEDs a single time. Each LED has its own flash duration and brightness.
 
-LED flash begins abbout 1000 microseconds after the external trigger is received.
-
+Important Notes:
+ * LED flash begins abbout 1000 microseconds after the external trigger is received.
+ * External trigger should be wired to Arduino Pin 2.
+ * The six LED outputs should be wired to Arduino Pins 3, 5, 6, 9, 10, and 11.
+ 
 Serial Commands (lower-case portions are optional):
   *IDN?                 Responds with a device identification string.
-  DURation:LEDN VAL     Sets LED N (0-5) pulse duration to VAL (integer, in microseconds).
-  DURation:LEDN?        Responds with LED N (0-5) pulse duration (integer, in microseconds).
-  BRIGhtness:LEDN VAL   Sets LED N (0-5) brightness (PWM duty cycle) to VAL (0 to 255).
-  BRIGhtness:LEDN?      Responds with LED N (0-5) brightness (PWM duty cycle)(0 to 255).
+  DURation:LEDN VAL     Sets LED N (0-5) pulse duration to VAL (unsigned long integer, in microseconds).
+  DURation:LEDN?        Responds with LED N (0-5) pulse duration (unsigned long integer, in microseconds).
+  BRIGhtness:LEDN VAL   Sets LED N (0-5) brightness (PWM duty cycle) to VAL (integer, 0 to 255).
+  BRIGhtness:LEDN?      Responds with LED N (0-5) brightness (PWM duty cycle)(integer, 0 to 255).
   
-Created by Keily Valdez-Sereno of California State University Channel Islands in Summer 2021.
-Modified by Scott Feister to add in external triggering on Oct 20, 2021.
-
 References:
  1. Following timer instructions at: https://github.com/contrem/arduino-timer
  2. Following Vrekrer SCPI Parser examples, e.g. at https://github.com/Vrekrer/Vrekrer_scpi_parser/blob/master/examples/Numeric_suffixes/Numeric_suffixes.ino
  3. Attaching an interrupt pin for external triggering: https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/ 
+
+Created by Keily Valdez-Sereno, Emiko Ito, and Scott Feister of California State University Channel Islands in Summer/Fall 2021.
 */
 
 #include "Arduino.h" 

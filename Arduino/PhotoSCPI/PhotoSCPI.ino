@@ -1,21 +1,28 @@
 /*
 PhotoSCPI.ino
 
-When externally triggered, repeatedly acquires ADC values from a photodiode input for a specified time period, then computes an integration value.
-s
+When externally triggered, integrates a photodiode signal for a specified time duration.
+
+Important Notes:
+ * Repeatedly acquires ADC values (every 200 us) from a photodiode input for a specified time period
+ * Data acquisition (DAQ) begins about 1000 microseconds after the external trigger is received, and continues for the specified duration.
+ * When duration is complete, an integration value in Volt-seconds is computed.
+ * This integration is the only measurement value obtainable via Serial commands.
+ * External trigger should be wired to Arduino Pin 2.
+ * Photodiode signal should be wired to Arduino Pin A0.
+
 Serial Commands (lower-case portions are optional):
   *IDN?                       Responds with a device identification string.
-  MEASurement:DURation VAL    Sets photodiode ADC integration duration to VAL (integer, in microseconds).
-  MEASurement:DURation?       Responds with photodiode ADC integration pulse duration (integer, in microseconds).
-  MEASurement:VALue?          Responds with the integration measurement (in Volts-seconds) from the most recent acquisition.
-
-Created by Emiko Ito and Keily Valdez-Sereno of California State University Channel Islands in Summer 2021.
-Modified by Scott Feister to add in external triggering on Oct 20, 2021.
+  MEASurement:DURation VAL    Sets photodiode ADC integration duration to VAL (unsigned long integer, in microseconds).
+  MEASurement:DURation?       Responds with photodiode ADC integration pulse duration (unsigned long integer, in microseconds).
+  MEASurement:VALue?          Responds with the integration measurement (double, in Volts-seconds) from the most recent acquisition.
 
 References:
  1. Following timer instructions at: https://github.com/contrem/arduino-timer
  2. Following Vrekrer SCPI Parser examples, e.g. at https://github.com/Vrekrer/Vrekrer_scpi_parser/blob/master/examples/Numeric_suffixes/Numeric_suffixes.ino
  3. Attaching an interrupt pin for external triggering: https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/ 
+
+Created by Emiko Ito, Keily Valdez-Sereno, and Scott Feister of California State University Channel Islands in Summer/Fall 2021.
 */
 
 #include "Arduino.h"
