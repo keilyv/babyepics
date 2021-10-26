@@ -45,7 +45,7 @@ int chanPins[NCHAN]; // Pins for each channel
 int delays[NCHAN]; // Millisecond delay times for each channel
 
 int pulseTime = 3000; // TTL pulse duration in microseconds
-double repRate = 10; // pulse repetition-rate in Hz
+double repRate = 1; // pulse repetition-rate in Hz
 unsigned long t0;
 
 /* Timing functions */
@@ -142,7 +142,6 @@ void setup() {
   my_instrument.SetCommandTreeBase(F("DELay:"));
   my_instrument.RegisterCommand(F("CHannel#?"), &getDelay);
   my_instrument.RegisterCommand(F("CHannel#"), &setDelay);
-  Serial.begin(9600);
 
   /* Timing setup */
   pinMode(TRIGOUT, OUTPUT); // Declare the TRIGOUT pin as a digital output
@@ -177,10 +176,12 @@ void setup() {
 
   // Initialize the repetition rate
   updateRepRate(repRate); // Sets the repetition-rate, with value in Hz
+
+  Serial.begin(9600);
 }
 
 void loop() {
   timer1.tick();
   timer2.tick();
-  my_instrument.ProcessInput(Serial, "\n");
+  my_instrument.ProcessInput(Serial, "\r\n")
 }
