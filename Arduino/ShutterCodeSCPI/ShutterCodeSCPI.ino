@@ -9,7 +9,7 @@ int pos = 0;                                              //places the position 
 String value = " ";
 
 void setup() {
-  my_instrument.RegisterCommand(F("ID?"), &Identify);     //first command "ID?"
+  my_instrument.RegisterCommand(F("*IDN?"), &Identify);     //first command "*IDN?"
   my_instrument.SetCommandTreeBase(F("SER:"));            //beginning to all other commands falls under the "SER"vo tree
     my_instrument.RegisterCommand(F(":POS"), &ServoPos);    //gives position value of the Servo
     //my_instrument.RegisterCommand(F(":UP"), &ServoUp);    //moves the Servo into the "UP" or blocking position
