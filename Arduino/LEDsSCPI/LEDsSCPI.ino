@@ -51,7 +51,7 @@ SCPI_Parser my_instrument;
 int brightness = 0; // temp variable
 int value = 0; // temp variable
 
-/* Timing functions */
+/* LED control functions */
 bool LEDStart(int LEDid) {
     // Turn on the LED of this index (0-5), with a specified PWM brightness
     analogWrite(LEDPins[LEDid], brights[LEDid]);
@@ -64,9 +64,11 @@ bool LEDStop(int LEDid) {
     return false; // to repeat the action - false to stop
 }
 
+/* Timing functions */
+
 // Interrupt service routine (ISR): Called upon external trigger.
 // Starts one-time timers that govern the start/stop pulse of the LEDs
-void pulseLEDs() {
+void myISR() {
     // Pulse the LEDs once, each with its own brightness and duration
     if (timer1.size() < 1) { // Only start a new set of LED pulses if the old set is completed
       t0 = micros() + 1000; // Set "LED pulse time zero" to one thousand microseconds into the future to get everything set up first
@@ -192,7 +194,7 @@ void setup() {
   brights[5] = 200;
 
   // Set up external triggering
-  attachInterrupt(digitalPinToInterrupt(EXTTRIG), pulseLEDs, RISING);
+  attachInterrupt(digitalPinToInterrupt(EXTTRIG), myISR, RISING);
 
   // Begin accepting SCPI commands
   Serial.begin(9600);

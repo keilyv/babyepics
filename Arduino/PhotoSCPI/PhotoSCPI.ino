@@ -33,9 +33,9 @@ Created by Emiko Ito, Keily Valdez-Sereno, and Scott Feister of California State
 #define EXTTRIG 2 // Note that this pin must be one of the Arduino pins capable of digital interrupt. See table at https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
 #define PHOTOPIN A0 // Arduino Pin for Photodiode Input
 
-Timer<3, micros> timer1; // Timer with 3 task slots, microsecond resolution, and handler argument type int
+Timer<3, micros> timer1; // Timer with 3 task slots, microsecond resolution, and handler argument type void
 
-unsigned long duration1; // duration of the photodiode measurement, in microseconds
+unsigned long duration1 = 2000; // duration of the photodiode measurement, in microseconds
 double integration = 0; // resultant integration value following photodiode measurement
 unsigned long sum = 0; // temporary sum used during integration
 unsigned long dt = 200; // microseconds between consecutive ADC measurements; must be large enough that it happens reliably on-time (keep above ~200 microseconds)
@@ -70,7 +70,7 @@ bool DAQStop(void *argument) {
 /* Timing functions */
 // Interrupt service routine (ISR): Called upon external trigger.
 // Starts one-time timers that govern the start/stop pulse of the ADC acquisition period
-void acquire() {
+void myISR() {
     // Schedule acquisition from the photodiode for the duration specified
     if (timer1.size() < 1) { // Only start a new acquisition if the old one is completed
       t0 = micros() + 1000; // Set "acquisition time-zero" to one thousand microseconds into the future to get everything set up first
@@ -106,6 +106,9 @@ void setup() {
   my_instrument.RegisterCommand(F("DURation"), &setDuration);
   my_instrument.RegisterCommand(F("DURation?"), &getDuration);
   my_instrument.RegisterCommand(F("VALue?"), &getValue);
+
+  attachInterrupt(digitalPinToInterrupt(EXTTRIG), myISR, RISING); // Set up external triggering
+
   Serial.begin(9600);
 }
 
